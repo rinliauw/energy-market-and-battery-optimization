@@ -7,7 +7,7 @@ Group Members:
 - Gerry Christian Ongko (Student ID)
 - Gilbert Harlim Putra (1006990)
 - Karina Fitriani Liauw (Student ID)
-- Yuhong Guo (Student ID)
+- Yuhong Guo (988056)
 
 
 # Repository Overview
