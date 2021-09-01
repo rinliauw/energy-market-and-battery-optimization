@@ -3,7 +3,7 @@ Group Name:
 - Groupname?
 
 Group Members:  
-- Cynthia Cynthia (Student ID)
+- Cynthia Cynthia (1086213)
 - Gerry Christian Ongko (Student ID)
 - Gilbert Harlim Putra (1006990)
 - Karina Fitriani Liauw (Student ID)
