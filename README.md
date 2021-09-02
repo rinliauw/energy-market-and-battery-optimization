@@ -23,7 +23,7 @@ __Competitive Submission Due__ : 15 October 2021, 23:59 PM AEST
 - `plots` : Contains all the plots that have been generated.
 - `code` : Contains all the code to generate the preprocessed dataset and models.
     1. __*Preprocessing*__ :
-        - 'Mandatory DP.ipynb' : Notebook that checks missing values and create train-test split
+        - Mandatory DP.ipynb : Notebook that checks missing values and create train-test split
     2. __*Analysis*__:
     3. __*Modelling*__:
 - `deprecated` : Trash bin of unwanted things :(
