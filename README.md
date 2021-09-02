@@ -18,12 +18,13 @@ __Competitive Submission Due__ : 15 October 2021, 23:59 PM AEST
 
 # Repository Overview
 ## Directory 
-- `raw_data`: Contains the data that has been given.
+- `instructions` : Contains given illustrative algorithm.
+- `meeting_minutes` : Contains all meeting minutes throughout the whole project.
+- `raw_data` : Contains the data that has been given.
 - `preprocessed_data` : Contains the data that has been preprocessed (e.g. Mandatory Task Train-Test split).
 - `plots` : Contains all the plots that have been generated.
 - `code` : Contains all the code to generate the preprocessed dataset and models.
-    1. __*Preprocessing*__ :
-        - Mandatory DP.ipynb : Notebook that checks missing values and create train-test split
-    2. __*Analysis*__:
-    3. __*Modelling*__:
+    1. __*Preprocessing*__ : All preprocessing notebooks / codes.
+    2. __*Analysis*__ : All analysis notebooks / codes.
+    3. __*Modelling*__: All modelling notebooks / codes.
 - `deprecated` : Trash bin of unwanted things :(
