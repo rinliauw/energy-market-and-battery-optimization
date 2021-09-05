@@ -1,5 +1,4 @@
 ,Time (UTC+10),Regions NSW Trading Price ($/MWh),Regions SA Trading Price ($/MWh),Regions TAS Trading Price ($/MWh),Regions VIC Trading Price ($/MWh),Regions NSW Trading Total Intermittent Generation (MW),Regions SA Trading Total Intermittent Generation (MW),Regions TAS Trading Total Intermittent Generation (MW),Regions VIC Trading Total Intermittent Generation (MW),Regions NSW Operational Demand (MW),Regions SA Operational Demand (MW),Regions TAS Operational Demand (MW),Regions VIC Operational Demand (MW)
-61296,2021-07-01 00:00:00,73.25,102.24,60.91,51.71,4.35,4.76,83.7,184.6,8521,1706,1197,5410
 61297,2021-07-01 00:30:00,190.22,96.47,99.43,90.51,5.26,4.92,77.71,175.53,8402,1679,1154,5192
 61298,2021-07-01 01:00:00,79.17,87.88,70.95,73.91,5.05,4.73,73.68,130.56,8256,1638,1161,5016
 61299,2021-07-01 01:30:00,68.24,102.82,70.46,33.79,4.62,7.19,76.4,120.55,8031,1566,1146,4837
