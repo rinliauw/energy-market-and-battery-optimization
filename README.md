@@ -4,7 +4,7 @@ Group Name:
 
 Group Members:  
 - Cynthia Cynthia (1086213)
-- Gerry Christian Ongko (Student ID)
+- Gerry Christian Ongko (1094251)
 - Gilbert Harlim Putra (1006990)
 - Karina Fitriani Liauw (1090015)
 - Yuhong Guo (988056)
