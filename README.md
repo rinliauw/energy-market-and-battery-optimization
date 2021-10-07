@@ -1,6 +1,6 @@
 # Energy Market and Battery Optimization
 Group Name:  
-- Groupname?
+- Group 13
 
 Group Members:  
 - Cynthia Cynthia (1086213)
@@ -14,7 +14,7 @@ __Competitive Submission Due__ : 15 October 2021, 23:59 PM AEST
 
 # Dependencies
 - Language: Python 3.9.6
-- Packages / Libraries: `pandas`, `numpy`, `openpyxl`, `matplotlib`, `seaborn`
+- Packages / Libraries: `pandas`, `numpy`, `openpyxl`, `matplotlib`, `seaborn`, `sklearn`, `math`, `statsmodels`
 
 # Repository Overview
 ## Directory 
