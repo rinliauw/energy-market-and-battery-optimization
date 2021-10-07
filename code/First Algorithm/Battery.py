@@ -81,7 +81,7 @@ class Battery:
     
     ########################################################################################
     # SET THE RAW POWER, DISPATCH, OPENING AND CLOSING CAPACITY OF THE BATTERY.
-    def Setting(self):
+    def FirstSetting(self):
         
         OPENING = 0
         CLOSING = 1
@@ -141,6 +141,11 @@ class Battery:
             # Ensuring that it doesn't exceeds array len limit
             if t + 1 < len_discharge:
                 self.discharge_capacity[t + 1][OPENING] = self.discharge_capacity[t][CLOSING]
+
+    def SecondSetting(self, opening_capacity, closing_capacity):
+        
+        return
+
     
     ########################################################################################
     # OPTIMISING BY CHOOSING THE CHARGE AND DISCHARGE AMOUNT REQUIRED    
