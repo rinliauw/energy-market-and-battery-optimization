@@ -26,7 +26,7 @@ __Competitive Submission Due__ : 15 October 2021, 23:59 PM AEST
 - `preprocessed_data` : Contains the data that has been preprocessed (e.g. Mandatory Task Train-Test split).
 - `plots` : Contains all the plots that have been generated.
 - `code` : Contains all the code to generate the preprocessed dataset and models.
-    1. __*Preprocessing*__ : All preprocessing notebooks / codes.
-    2. __*Analysis*__ : All analysis notebooks / codes.
-    3. __*Modelling*__: All modelling notebooks / codes.
+    1. __*Mandatory task*__ : All mini models for mandatory task algorithm.
+    2. __*Bonus task*__ : ARMA and VAR implementation.
+    3. __*Misc*__: All pre-processing / analysis codes.
 - `deprecated` : Trash bin of unwanted things :(
