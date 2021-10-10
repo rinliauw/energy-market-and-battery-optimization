@@ -18,9 +18,11 @@ __Competitive Submission Due__ : 15 October 2021, 23:59 PM AEST
 
 # Repository Overview
 ## Directory 
-- `instructions` : Contains given illustrative algorithm.
+- `instructions` : Contains given illustrative algorithm and task instructions.
 - `meeting_minutes` : Contains all meeting minutes throughout the whole project.
 - `raw_data` : Contains the data that has been given.
+- `reports` : Contains a summary of Mandatory and Bonus Task Approach.
+- `prediction_data` : Contains output files of Bonus Task.
 - `preprocessed_data` : Contains the data that has been preprocessed (e.g. Mandatory Task Train-Test split).
 - `plots` : Contains all the plots that have been generated.
 - `code` : Contains all the code to generate the preprocessed dataset and models.
