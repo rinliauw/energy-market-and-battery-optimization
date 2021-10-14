@@ -16,8 +16,8 @@ __Competitive Submission Due__ : 15 October 2021, 23:59 PM AEST
 Report Link: https://www.overleaf.com/read/nrbqpxqrvysx
 
 # Dependencies
-- Language: Python 3.9.6
-- Packages / Libraries: `pandas`, `numpy`, `openpyxl`, `matplotlib`, `seaborn`, `sklearn`, `math`, `statsmodels`
+- Language : Python 3.7.7 - 3.9.6
+- Packages / Libraries: `pandas`, `numpy`, `openpyxl`, `matplotlib`, `seaborn`, `sklearn`, `math`, `statsmodels`, `scipy`
 
 # Repository Overview
 ## Directory 
