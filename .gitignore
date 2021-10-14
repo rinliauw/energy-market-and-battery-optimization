@@ -1,5 +1,6 @@
 # General
-.DS_Store
+*.DS_Store
+*.Rhistory
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
