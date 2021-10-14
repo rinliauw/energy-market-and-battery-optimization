@@ -3,7 +3,7 @@
 ## Mandatory Task
 ### Directory
 - `MiniModels.ipynb`: contains all functions of the mini models 
- * `Moving Average`
+  -   `Moving Average`
  * `Region Maximisation`
  * `Loss Removal`
  * `Stationary Maximisation`
