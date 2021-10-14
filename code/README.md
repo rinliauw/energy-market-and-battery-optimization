@@ -28,4 +28,4 @@
 2. To run the final chosen model for bonus task (VAR Model), open `Run VAR.ipynb`. This will run the predicted price on the mandatory task's model.
 
 ## Misc
-- `Mandatory Task DP.ipynb`: this file separates train and test period of `market_data.xlsx` and saves it to `preprocessed_data` folder
+- `Data Preprocessing.ipynb`: this file separates train and test period of `market_data.xlsx` and saves it to `preprocessed_data` folder
