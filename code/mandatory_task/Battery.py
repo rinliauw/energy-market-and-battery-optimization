@@ -63,20 +63,14 @@ class Battery:
     # Battery Specifications
     # NOTE: IF THERE IS ANY CHANGE HERE IN THE SPECIFICATIONS CHANGE THE VALUE BELOW.
     # TODO: MAKE THIS SPECIFICATIONS AS PARAMETERS OF THIS BATTERY CLASS. (COMPLETED)
-    #mlf = 0.991                 # Marginal Loss Factor
-    #battery_capacity = 580      # Max Battery Capacity
-    #battery_power = 300         # Max Battery Power
-    #charge_efficiency = 0.9     # Charge Efficiency
-    #discharge_efficiency = 0.9  # Discharge Efficiency
+    mlf = 0.991                 # Marginal Loss Factor
+    battery_capacity = 580      # Max Battery Capacity
+    battery_power = 300         # Max Battery Power
+    charge_efficiency = 0.9     # Charge Efficiency
+    discharge_efficiency = 0.9  # Discharge Efficiency
         
     def __init__(self, charge_period, charge_spot_price,
-                 discharge_period, discharge_spot_price,
-                 mlf = 0.991,                # Marginal Loss Factor
-                 battery_capacity = 580,     # Max Battery Capacity
-                 battery_power = 300,        # Max Battery Power
-                 charge_efficiency = 0.9,    # Charge Efficiency
-                 discharge_efficiency = 0.9  # Discharge Efficiency
-                 ):
+                 discharge_period, discharge_spot_price):
         '''
                    
         Initialise the battery class.
@@ -99,12 +93,6 @@ class Battery:
         # Spot Price during Charge and Discharge
         self.charge_price = charge_spot_price
         self.discharge_price = discharge_spot_price
-
-        self.mlf = mlf
-        self.battery_capacity = battery_capacity      
-        self.battery_power = battery_power         
-        self.charge_efficiency = charge_efficiency     
-        self.discharge_efficiency = discharge_efficiency  
     
     ########################################################################################    
                 
@@ -411,6 +399,7 @@ class Battery:
             The discharge capacity of the given period
         charge_capacity : list
             The charge capacity of the given period
+
         '''
         battery_cap = np.amax(charge_capacity)
         

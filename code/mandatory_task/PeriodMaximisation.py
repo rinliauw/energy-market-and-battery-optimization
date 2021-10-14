@@ -606,8 +606,8 @@ def findBatteryPairsReverse(buy_period, sell_period, dataframe):
             # If battery buying point period is less MAXIMUM BUYING
             # PERIOD PER PAIR and battery buying point is less than maximum
             # possible charge at a time, add new period.
-            if len(buy) < MAX_BUY_PERIOD and len(buy) < math.ceil(len(sell) * 1.25)
-            and len(buy) < max_cap // MAX_CHARGE_CAP + 1:
+            if len(buy) < MAX_BUY_PERIOD and len(buy) < math.ceil(len(sell) * 1.25) \
+                and len(buy) < max_cap // MAX_CHARGE_CAP + 1:
                 buy[buy_period[p]] = buy_period.index(buy_period[p]) + 1
             # else, if battery buying point is full and there is
             # lower minimum buying point then remove the highest
@@ -723,39 +723,27 @@ def localOptimisation(dataframe, region = "VIC"):
     # O(N^2 + NLogN)
     for s in range(1, len(dataframe) + 1):
         for b in range(1, len(dataframe) + 1 - s):
-            # Get the minimum and maximum price based on the given threshold.
             min_price, max_price = GetMinMax(dataframe, buy_threshold = b, sell_threshold = s, region = region)
-            # Get the reverse battery pairs based on minimum and maximum price.
             battery_pairs = findBatteryPairsReverse(min_price, max_price, dataframe)
-            # Get the battery optimisation for the selected threshold.
             all_batteries = SetChargeDischargeReverse(dataframe, battery_pairs, region = region)
-            # Compute daily revenue of selected battery combinations.
             dailyrev = ComputeDailyRevenue(all_batteries)
-
-            # If revenue is negative, skip.
-            if dailyrev < 0:
-                break
-            # Insert revenue as key, batteries combination and threshold as value.
             if dailyrev not in best_batteries:
                 best_batteries[dailyrev] = (all_batteries, (b, s))
 
-    # Find the highest revenue amongst possible combinations in that day.
+    # Find the highest revenue amongst possible combinations in that day
     best_revenue = max(best_batteries)
+    battery = best_batteries[best_revenue][0] # The Best battery combinations
 
-    # The best battery combinations
-    battery = best_batteries[best_revenue][0]
-
-    # Initialise raw_power, market_dispatch, opening_capacity and closing capacity.
-    # O(N)
+    # Initialise raw_power, market_dispatch, opening_capacity and closing capacity
     raw_power = [0 for i in range(period)]
     market_dispatch = [0 for i in range(period)]
     opening_capacity = dataframe.loc[:, 'Opening Capacity (MWh)'].to_numpy()
     closing_capacity = dataframe.loc[:, 'Closing Capacity (MWh)'].to_numpy()
-
+    
     # Iterate over battery combinations to set raw_power, market_dispatch,
-    # opening_capacity, closing_capacity into an array to be prepared for
+    # opening_capacity, closing_capacity into an array to be prepared for 
     # merging with the dataset.
-    for b in battery:
+    for b in battery:   
         # Charging Period
         for cp in range(len(b.charge_period)):
             raw_power[b.charge_period[cp][1] - 1] = b.charge_raw_power[cp]
@@ -768,11 +756,9 @@ def localOptimisation(dataframe, region = "VIC"):
             market_dispatch[b.discharge_period[dp][1] - 1] = b.discharge_market_dispatch[dp]
             opening_capacity[b.discharge_period[dp][1] - 1] = b.discharge_capacity[dp][0]
             closing_capacity[b.discharge_period[dp][1] - 1] = b.discharge_capacity[dp][1]
-
-
+            
+       
     # Formatting the opening and closing capacity.
-    # O(N)
-    change = 0
     for i in range(1, len(opening_capacity)):
         if closing_capacity[i - 1] != opening_capacity[i]:
             opening_capacity[i] = closing_capacity[i - 1]
@@ -813,9 +799,6 @@ def localMaximisation(dataframe, timePeriod, region = "VIC"):
                                       (tmp_df['Time (UTC+10)'] <= end_t)]
 
         start_index = data_interval.index[0]
-
-        # Get the spot price
-        price = GetSpotPrice(data_interval).tolist()
 
         raw_power, market_dispatch, opening_capacity, closing_capacity, _ = localOptimisation(data_interval, region = region)
 
@@ -883,7 +866,7 @@ def fullMaximisation(dataframe, period, region = "VIC"):
     tmp_df['Status'] = pd.Series(status)
 
     betweenPeriod = selectBetweenPeriod(tmp_df)
-    newData = localMaximisation(tmp_df, betweenPeriod, region = "VIC")
+    newData = localMaximisation(tmp_df, betweenPeriod, region = region)
 
     return newData
 
@@ -1114,6 +1097,7 @@ def computeRawPower(dataframe):
 
 def DependencyOptimisation(data, timePeriod, region = "VIC"):
     '''
+    
     Our final optimisation algorithm that will be used. This algorithm
     accounts for the dependency which the previous models does not.
 
@@ -1133,13 +1117,13 @@ def DependencyOptimisation(data, timePeriod, region = "VIC"):
     -------
         - data : pandas dataframe
             Updated dataframe after maximisation.
+
     '''
     raw_power = []
     market_dispatch = []
     opening_capacity = []
     closing_capacity = []
 
-    #count = 0
     # Iterate over each timePeriod.
     for time in timePeriod:
         start_t = time[0]
@@ -1206,8 +1190,6 @@ def DependencyOptimisation(data, timePeriod, region = "VIC"):
             opening_capacity.extend(data_interval['Opening Capacity (MWh)'])
             closing_capacity.extend(data_interval['Closing Capacity (MWh)'])
 
-        #print(count) # To show progress of the algorithm
-        #count += 1
 
     data['Raw Power (MW)'] = pd.Series(raw_power)
     data['Market Dispatch (MWh)'] = pd.Series(market_dispatch)
