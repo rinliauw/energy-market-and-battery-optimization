@@ -11,45 +11,74 @@ class Battery:
     ```NOTE``` : IF THERE IS ANY CHANGE IN CALCULATION, CHANGE CALCULATION IN THE FUNCTION
      MARKED BY (BATTERY CALCULATION).
 
+    Parameters
+    ----------
+        - charge_period : list
+            List of period when it should charge.
+        - discharge_period : list
+            List of period when it should discharge.
+        - charge_price : list
+            List of spot price given charging period.
+        - discharge_price : list
+            List ofspot price given discharging period.
+        - mlf : double
+            Marginal Loss Factor (default = 0.991)
+        - battery_capacity : double
+            Maximum Battery Capacity (default = 580)
+        - battery_power : double
+            Maximum Battery Power (default = 300)
+        - charge_efficiency : double
+            Charging efficiency (default = 0.9)
+        - discharge_efficiency : double
+            Discharging efficiency (default = 0.9)
     ---
     Consists of:
-      - charge_period : period when it should charge.
-      - discharge_period : period when it should discharge.
-      - charge_price : spot price given charging period.
-      - discharge_price : spot price given discharging period.
-      - charge_market_dispatch : set amount of market dispatch given charging period.
-      - discharge_market_dispatch : set amount of market dispatch given discharging period.
+        - charge_period : period when it should charge.
+        - discharge_period : period when it should discharge.
+        - charge_price : spot price given charging period.
+        - discharge_price : spot price given discharging period.
+        - charge_market_dispatch : set amount of market dispatch given charging period.
+        - discharge_market_dispatch : set amount of market dispatch given discharging period.
 
     ---
     Functions:
-      - ComputeRevenue: To calculate revenue given discharge and charge period pairs.
+        - ComputeRevenue: To calculate revenue given discharge and charge period pairs.
 
-      - Setting : Set all the battery functionalities. `(BATTERY CALCULATION)`
+        - Setting : Set all the battery functionalities. `(BATTERY CALCULATION)`
 
-      - FirstOptimisation : Ensure that energy are not wasted or not used. `(BATTERY CALCULATION)`
-      - SecondOptimisation : Ensure that to always charge the highest price less and discharge
-                             highest price more. `(BATTERY CALCULATION)`
+        - FirstOptimisation : Ensure that energy are not wasted or not used. `(BATTERY CALCULATION)`
+        - SecondOptimisation : Ensure that to always charge the highest price less and discharge
+                                highest price more. `(BATTERY CALCULATION)`
 
-      - ReverseSetting : A wrapper function for EqualSetting and NonEqualSetting. Use this function 
-                         if battery capacity is not empty at the beginning.
+        - ReverseSetting : A wrapper function for EqualSetting and NonEqualSetting. Use this function 
+                            if battery capacity is not empty at the beginning.
 
-      - EqualSetting : A function to set the battery functionalities if the len of charge and discharge
-                       are `Equal`.
-      - NonEqualSetting : A function to set the battery functionalities if the len of charge and discharge
-                          are `Not Equal`.
+        - EqualSetting : A function to set the battery functionalities if the len of charge and discharge
+                        are `Equal`.
+        - NonEqualSetting : A function to set the battery functionalities if the len of charge and discharge
+                            are `Not Equal`.
     ---
     Created and Developed by: Gilbert Putra
     """
     # Battery Specifications
-    mlf = 0.991                 # Marginal Loss Factor
-    battery_capacity = 580      # Max Battery Capacity
-    battery_power = 300         # Max Battery Power
-    charge_efficiency = 0.9     # Charge Efficiency
-    discharge_efficiency = 0.9  # Discharge Efficiency
+    # NOTE: IF THERE IS ANY CHANGE HERE IN THE SPECIFICATIONS CHANGE THE VALUE BELOW.
+    # TODO: MAKE THIS SPECIFICATIONS AS PARAMETERS OF THIS BATTERY CLASS. (COMPLETED)
+    #mlf = 0.991                 # Marginal Loss Factor
+    #battery_capacity = 580      # Max Battery Capacity
+    #battery_power = 300         # Max Battery Power
+    #charge_efficiency = 0.9     # Charge Efficiency
+    #discharge_efficiency = 0.9  # Discharge Efficiency
         
     def __init__(self, charge_period, charge_spot_price,
-                 discharge_period, discharge_spot_price): 
+                 discharge_period, discharge_spot_price,
+                 mlf = 0.991,                # Marginal Loss Factor
+                 battery_capacity = 580,     # Max Battery Capacity
+                 battery_power = 300,        # Max Battery Power
+                 charge_efficiency = 0.9,    # Charge Efficiency
+                 discharge_efficiency = 0.9  # Discharge Efficiency
+                 ):
         '''
+                   
         Initialise the battery class.
 
         Parameters
@@ -70,6 +99,12 @@ class Battery:
         # Spot Price during Charge and Discharge
         self.charge_price = charge_spot_price
         self.discharge_price = discharge_spot_price
+
+        self.mlf = mlf
+        self.battery_capacity = battery_capacity      
+        self.battery_power = battery_power         
+        self.charge_efficiency = charge_efficiency     
+        self.discharge_efficiency = discharge_efficiency  
     
     ########################################################################################    
                 
@@ -89,7 +124,9 @@ class Battery:
         discharge_md = np.array(self.discharge_market_dispatch).T
         
         # Revenues
+        # SPOT PRICE * MARKET DISPATCH * 1/MARGINAL LOSS FACTOR
         charge_revenue = (charge_sp @ charge_md) * (1 / self.mlf)
+        # SPOT PRICE * MARKET DISPATCH * MARGINAL LOSS FACTOR
         discharge_revenue = (discharge_sp @ discharge_md) * (self.mlf)
         
         return discharge_revenue + charge_revenue
@@ -172,9 +209,6 @@ class Battery:
         MAX_DISCHARGE_PERIOD = 4
         
         if (len_charge >= MAX_CHARGE_PERIOD and len_discharge >= MAX_DISCHARGE_PERIOD) or (len_charge == len_discharge):
-            #md = 117
-            #self.discharge_raw_power[-1] = min(md * 2 / self.discharge_efficiency, self.discharge_raw_power[-1])
-            #self.discharge_market_dispatch[-1] = self.discharge_raw_power[-1] / 2 * self.discharge_efficiency
             return
         elif (len_charge - len_discharge == 1):
             self.discharge_capacity[-1][CLOSING] = 0
@@ -307,41 +341,61 @@ class Battery:
         self.discharge_market_dispatch = ['' for i in range(len_discharge)]
         
         ################################## CHARGE PERIOD ##################################
+        # BACKTRACKING FROM THE CHARGING PERIOD TO ENSURE THERE IS NO LOSSES IN REVENUE DURING CHARGING
+        # OPENING CAPACITY[-1] = MAX(0, MIN(CLOSING CAPACITY[-1] - 
+        #                                   MAXIMUM CHARGING POSSIBLE * CHARGING EFFICIENCY, MAXIMUM BATTERY CAPACITY))
         self.charge_capacity[-1][OPENING] = max(0, min(self.charge_capacity[-1][CLOSING] - 
                                                         MAX_CHARGE_MD * self.charge_efficiency, battery_cap))
-                                                
+        # Traversing backwards                                        
         for t in range(1, len_charge):
+            # CLOSING CAPACITY[-t -1] = OPENING CAPACITY[-t]
             self.charge_capacity[-t -1][CLOSING] = self.charge_capacity[-t][OPENING]
+            # OPENING CAPACITY[-1] = MAX(0, MIN(CLOSING CAPACITY[-1] - 
+        #                                   MAXIMUM CHARGING POSSIBLE * CHARGING EFFICIENCY, MAXIMUM BATTERY CAPACITY))
             self.charge_capacity[-t -1][OPENING] = max(0, min(self.charge_capacity[-t -1][CLOSING] - 
                                                                 MAX_CHARGE_MD * self.charge_efficiency, battery_cap))
-            
+            # MARKET DISPATCH[-t] = -MIN(MAXIMUM CHARGING DISPATCH, (CLOSING CAPACITY[-t] - 
+            #                                                        OPENING CAPACITY[-t]) / CHARGING EFFICIENCY)
             self.charge_market_dispatch[-t] = -min(MAX_CHARGE_MD, (self.charge_capacity[-t][CLOSING] - 
                                                                     self.charge_capacity[-t][OPENING]) / self.charge_efficiency)
+            # RAW POWER[-t] = MAX(-MAXIMUM RAW POWER, MARKET DISPATCH[-t] * 2)
             self.charge_raw_power[-t] = max(-MAX_RAW_POWER, self.charge_market_dispatch[-t] * 2)
-            
+        # MARKET DISPATCH[0] = -MIN(MAXIMUM CHARGING DISPATCH, (CLOSING CAPACITY[0] - 
+        #                                                        OPENING CAPACITY[0]) / CHARGING EFFICIENCY)
         self.charge_market_dispatch[0] = -min((self.charge_capacity[0][CLOSING] - 
                                                 self.charge_capacity[0][OPENING]) / self.charge_efficiency, MAX_CHARGE_MD)
+        # RAW POWER[0] = MAX(-MAXIMUM RAW POWER, MARKET DISPATCH[0] * 2)
         self.charge_raw_power[0] = max(-MAX_RAW_POWER, self.charge_market_dispatch[0] * 2)  
         
         ################################## DISCHARGE PERIOD ##################################
+        # BACKTRACKING FROM THE MAXIMUM CHARGING POSSIBLE IN THIS BATTERY PAIRS TO ENSURE IT FOLLOWS THE
+        # BATTERY SPECIFICATIONS.
+        # DISCHARGING CLOSING CAPACITY[-1] = CHARING OPENING CAPACITY[0]
         self.discharge_capacity[-1][CLOSING] = self.charge_capacity[0][OPENING]
-
+        # OPENING CAPACITY[-1] = MIN(MAXIMUM BATTERY CAPACITY, CLOSING CAPACITY[-1]) +
+        #                                                       MAXIMUM DISCHARGING DISPATCH / DISCHARGE EFFICIENCY
         self.discharge_capacity[-1][OPENING] = min(battery_cap, self.discharge_capacity[-1][CLOSING] + 
                                                                     MAX_DISCHARGE_MD / self.discharge_efficiency)
-
+        # MARKET DISPATCH[-1] = MIN(MAXIMUM DISCHARGING DISPATCH, DISCHARGING OPENING CAPACITY[-1] - 
+        #                                                           DISCHARGING CLOSING CAPACITY[-1] * DISCHARGE EFFICIENCY)
         self.discharge_market_dispatch[-1] = min(MAX_DISCHARGE_MD, (self.discharge_capacity[-1][OPENING] - 
                                                                         self.discharge_capacity[-1][CLOSING]) * self.discharge_efficiency) 
-
+        # DISCHARGE RAW POWER[-1] = MIN(MAXIMUM RAW POWER, DISCHARGE MARKET DISPATCH[-1] * 2 / DISCHARGE EFFICIENCY)
         self.discharge_raw_power[-1] = min(MAX_RAW_POWER, self.discharge_market_dispatch[-1] * 2 / self.discharge_efficiency)
-        for t in range(1, len_discharge):
-            self.discharge_capacity[-t -1][CLOSING] = self.discharge_capacity[-t][OPENING]
 
+        # Traversing backwards
+        for t in range(1, len_discharge):
+            # DISCHARGING CLOSING CAPACITY[-t -1] = CHARING OPENING CAPACITY[-t]
+            self.discharge_capacity[-t -1][CLOSING] = self.discharge_capacity[-t][OPENING]
+            # OPENING CAPACITY[-t -1] = MIN(MAXIMUM BATTERY CAPACITY, CLOSING CAPACITY[-t -1]) +
+            #                                                       MAXIMUM DISCHARGING DISPATCH / DISCHARGE EFFICIENCY
             self.discharge_capacity[-t -1][OPENING] = min(battery_cap, self.discharge_capacity[-t -1][CLOSING] + 
                                                                         MAX_DISCHARGE_MD / self.discharge_efficiency)
-
+            # MARKET DISPATCH[-t -1] = MIN(MAXIMUM DISCHARGING DISPATCH, DISCHARGING OPENING CAPACITY[-t -1] - 
+            #                                                           DISCHARGING CLOSING CAPACITY[-t -1] * DISCHARGE EFFICIENCY)
             self.discharge_market_dispatch[-t-1] = min(MAX_DISCHARGE_MD, (self.discharge_capacity[-t -1][OPENING] - 
                                                                             self.discharge_capacity[-t -1][CLOSING]) * self.discharge_efficiency) 
-
+            # DISCHARGE RAW POWER[-t -1] = MIN(MAXIMUM RAW POWER, DISCHARGE MARKET DISPATCH[-t -1] * 2 / DISCHARGE EFFICIENCY)
             self.discharge_raw_power[-t -1] = min(MAX_RAW_POWER, self.discharge_market_dispatch[-t -1] * 2 / self.discharge_efficiency)    
         
     ########################################################################################
@@ -378,37 +432,61 @@ class Battery:
         self.discharge_market_dispatch = ['' for i in range(len_discharge)]
         
         ################################## DISCHARGE PERIOD ##################################
+        # FORWARDING FROM THE MAXIMUM DISCHARGING POSSIBLE IN THIS BATTERY PAIRS TO ENSURE IT FOLLOWS THE
+        # BATTERY SPECIFICATIONS.
+        # DISCHARGE CLOSING CAPACITY[0] = MAX(0, MIN(DISCHARGE OPENING CAPACITY[0]) -
+        #                                               MAXIMUM DISCHARGE MARKET DISPATCH / DISCHARGE EFFICIENCY, MAXIMUM BATTERY CAPACITY)
         self.discharge_capacity[0][CLOSING] = max(0, min(self.discharge_capacity[0][OPENING] - 
                                                          MAX_DISCHARGE_MD / self.discharge_efficiency, battery_cap))
-        
+        # Traversing forward
         for t in range(1, len_discharge):
+            # DISCHARGE OPENING CAPACITY[t] = DISCHARGE CLOSING CAPACITY[t-1]
             self.discharge_capacity[t][OPENING] = self.discharge_capacity[t - 1][CLOSING]
+            # DISCHARGE CLOSING CAPACITY[t] = MAX(0, MIN(DISCHARGING CAPACITY[t][OPENING]) - 
+            #                                               MAX DISCHARGE DISPATCH / DISCHARGING EFFICIENCY, MAXIMUM BATTERY CAPACITY)
             self.discharge_capacity[t][CLOSING] = max(0, min(self.discharge_capacity[t][OPENING] - 
                                                                 MAX_DISCHARGE_MD / self.discharge_efficiency, battery_cap))
+            # DISCHARGE MARKET DISPATCH[t-1] = MIN((DISCHARGE OPENING CAPACITY[t-1] - 
+            #                                       DISCHARGE CLOSING CAPACITY[t-1]) * DISCHARGE EFFICIENCY, MAXIMUM DISCHARGE DISPATCH)
             self.discharge_market_dispatch[t-1] = min((self.discharge_capacity[t-1][OPENING] - 
                                                         self.discharge_capacity[t-1][CLOSING]) * self.discharge_efficiency, MAX_DISCHARGE_MD)
-            self.discharge_raw_power[t-1] = min(MAX_RAW_POWER, self.discharge_market_dispatch[t-1] * 2 / 0.9)
+            # DISCHARGE RAW POWER[t-1] = MIN(MAXIMUM RAW POWER, DISCHARGE MARKET DISPATCH[t-1] * 2 / DISCHARGE EFFICIENCY)
+            self.discharge_raw_power[t-1] = min(MAX_RAW_POWER, self.discharge_market_dispatch[t-1] * 2 / self.discharge_efficiency)
         
+        # DISCHARGE MARKET DISPATCH[-1] = MIN((DISCHARGE OPENING CAPACITY[-1] - 
+        #                                       DISCHARGE CLOSING CAPACITY[-1]) * DISCHARGE EFFICIENCY, MAXIMUM DISCHARGE DISPATCH )
         self.discharge_market_dispatch[-1] = min((self.discharge_capacity[-1][OPENING] - 
                                                     self.discharge_capacity[-1][CLOSING]) * self.discharge_efficiency, MAX_DISCHARGE_MD)
-        self.discharge_raw_power[-1] = min(MAX_RAW_POWER, self.discharge_market_dispatch[-1] * 2 / 0.9)
+        # DISCHARGE RAW POWER[-1] = MIN(MAXIMUM RAW POWER, DISCHARGE MARKET DISPATCH[-1] * 2 / DISCHARGE EFFICIENCY)
+        self.discharge_raw_power[-1] = min(MAX_RAW_POWER, self.discharge_market_dispatch[-1] * 2 / self.discharge_efficiency)
         
         ################################## CHARGE PERIOD ##################################
+        # FORWARDING FROM THE CHARGING PERIOD TO ENSURE THERE IS NO LOSSES IN REVENUE DURING CHARGING
+        # BY CHARGING WHAT WE NEEDED FOR THE DISCHARGE.
+        # CHARGE OPENING CAPACITY[0] = DISCHARGE CLOSING CAPACITY[-1]
         self.charge_capacity[0][OPENING] = self.discharge_capacity[-1][CLOSING]
+        # CHARGE MARKET DISPATCH[0] = MIN(CHARGE CLOSING CAPACITY[0] -
+        #                                  CHARGE OPENING CAPACITY[0] * CHARGING EFFICIENCY, MAXIMUM CHARGING DISPATCH)
         self.charge_market_dispatch[0] = min(self.charge_capacity[0][CLOSING] - 
                                                 self.charge_capacity[0][OPENING] * self.charge_efficiency, MAX_CHARGE_MD)
-        
+        # CHARGE RAW POWER[0] = MIN(MAXIMUM RAW POWER, CHARGE MARKET DISPATCH[0] * 2)
         self.charge_raw_power[0] = min(MAX_RAW_POWER, self.charge_market_dispatch[0] * 2)
+        # Traversing forward
         for t in range(1, len_charge):
+            # CHARGE CLOSING CAPACITY[t-1] = MIN(MAXIMUM BATTERY CAPACITY, CHARGE OPENING CAPACITY[t-1] + MAXIMUM CHARGING DISPATCH * CHARGING EFFICIENCY)
             self.charge_capacity[t - 1][CLOSING] = min(battery_cap, self.charge_capacity[t-1][OPENING] + MAX_CHARGE_MD * self.charge_efficiency)
+            # CHARGE OPENING CAPACITY[t] = CHARGE CLOSING CAPACITY[t-1]
             self.charge_capacity[t][OPENING] = self.charge_capacity[t - 1][CLOSING]
-            
+            # CHARGE MARKET DISPATCH[t-1] = -MIN((CHARGE CLOSING CAPACITY[t-1]) -
+            #                                       CHARGE OPENING CAPACITY[t-1]) / CHARGING EFFICIENCY, MAXIMUM CHARGING DISPATCH
             self.charge_market_dispatch[t-1] = -min((self.charge_capacity[t-1][CLOSING] - 
                                                         self.charge_capacity[t-1][OPENING]) / self.charge_efficiency, MAX_CHARGE_MD)
+            # CHARGE RAW POWER[t-1] = MAX(-MAXIMUM RAW POWER, CHARGE MARKET DISPATCH[t-1] * 2)
             self.charge_raw_power[t-1] = max(-MAX_RAW_POWER, self.charge_market_dispatch[t-1] * 2)
             
-            
+        # CHARGE MARKET DISPATCH[-1] = -MIN((CHARGE CLOSING CAPACITY[-1] -
+        #                                       CHARGE OPENING CAPACITY[-1]) / CHARGE EFFICIENCY, MAXIMUM CHARGING DISPATCH)
         self.charge_market_dispatch[-1] = -min((self.charge_capacity[-1][CLOSING] - 
                                                     self.charge_capacity[-1][OPENING]) / self.charge_efficiency, MAX_CHARGE_MD)
-
+        # CHARGE RAW POWER[-1] = MAX(-MAXIMUM RAW POWER, CHARGE MARKET DISPATCH[-1] * 2)
         self.charge_raw_power[-1] = max(-MAX_RAW_POWER, self.charge_market_dispatch[-1] * 2)
