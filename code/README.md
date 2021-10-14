@@ -3,11 +3,11 @@
 ## Mandatory Task
 ### Directory
 - `MiniModels.ipynb`: contains all functions of the mini models 
-      * `Moving Average`
-      * `Region Maximisation`
-      * `Loss Removal`
-      * `Stationary Maximisation`
-      * `Action Shift`
+ * `Moving Average`
+ * `Region Maximisation`
+ * `Loss Removal`
+ * `Stationary Maximisation`
+ * `Action Shift`
 - `Battery.py`: Contains the battery class that is needed for `PeriodMaximisation.py`
 - `PeriodMaximisation.py`: Period Maximisation model (MAKE SURE `Battery.py` IS IN THE SAME FOLDER AS THERE IS DEPENDENCIES TOWARDS IT).
 - `Final Optimisation Algorithm.ipynb`: Main Function to run the optimisation algorithm (JUST USE THIS ONE, IF THERE IS A CHANGE IN BATTERY SPECIFICATIONS CHANGE IT IN THE THREE FILES ABOVE).
