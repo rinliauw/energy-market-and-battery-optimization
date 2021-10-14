@@ -1,16 +1,23 @@
 # Code Directory
 
 ## Mandatory Task
-
 ### Directory
-- `MainModel.ipynb`: contains all functions of the mini models and a main function to run them as an entire algorithm.
--
+- `MiniModels.ipynb`: contains all functions of the mini models 
+      - `Moving Average`
+      - `Region Maximisation`
+      - `Loss Removal`
+      - `Stationary Maximisation`
+      - `Action Shift`
+- `Battery.py`: Contains the battery class that is needed for `PeriodMaximisation.py`
+- `PeriodMaximisation.py`: Period Maximisation model (MAKE SURE `Battery.py` IS IN THE SAME FOLDER AS THERE IS DEPENDENCIES TOWARDS IT).
+- `Final Optimisation Algorithm.ipynb`: Main Function to run the optimisation algorithm (JUST USE THIS ONE, IF THERE IS A CHANGE IN BATTERY SPECIFICATIONS CHANGE IT IN THE THREE FILES ABOVE).
 
 ### Instructions
-1.
+1. Make sure `MiniModels.ipynb`, `Battery.py`, `PeriodMaximisation.py` and `Final Optimisation Algorithm.ipynb` are in the same directory.
+2. Open the `Final Optimisation Algorithm.ipynb`.
+3. Run `Final Optimisation Algorithm.ipynb` from above to below, change the input file.
 
 ## Bonus Task
-
 ### Directory
 - `Vector Autoregression (Log Difference).ipynb`: contains test data price predictions with VAR using log difference transformation
 - `Vector Autoregression (Log).ipynb`: contains test data price predictions with VAR using log 
