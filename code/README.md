@@ -1,24 +1,24 @@
 # Code Directory
 
-# Mandatory Task
+## Mandatory Task
 
-## Directory
+### Directory
 - `MainModel.ipynb`: contains all functions of the mini models and a main function to run them as an entire algorithm.
 -
 
-## Instructions
+### Instructions
 1.
 
-# Bonus Task
+## Bonus Task
 
-## Directory
+### Directory
 - `Vector Autoregression (Log Difference).ipynb`: contains test data price predictions with VAR using log difference transformation
 - `Vector Autoregression (Log).ipynb`: contains test data price predictions with VAR using log 
 - `ARMA.ipynb`: contains test data price predictions using ARIMA
 
-## Instructions
+### Instructions
 1. To predict prices using the final model, open the file `Vector Autoregression (Log).ipynb`.
 2. To run the final chosen model for bonus task (VAR Model), open `Run VAR.ipynb`. This will run the predicted price on the mandatory task's model.
 
-# Misc
+## Misc
 - `Mandatory Task DP.ipynb`: this file separates train and test period of `market_data.xlsx` and saves it to `preprocessed_data` folder
