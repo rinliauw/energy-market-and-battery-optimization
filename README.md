@@ -10,6 +10,7 @@ Group Members:
 - Yuhong Guo (988056)
 
 __Presentation Due__ : 11 October 2021  (COMPLETED)
+
 __Competitive Submission Due__ : 15 October 2021, 23:59 PM AEST
 
 # Bonus Task Report:
