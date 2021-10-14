@@ -20,13 +20,13 @@ __Competitive Submission Due__ : 15 October 2021, 23:59 PM AEST
 ## Directory 
 - `instructions` : Contains given illustrative algorithm and task instructions.
 - `meeting_minutes` : Contains all meeting minutes throughout the whole project.
-- `raw_data` : Contains the data that has been given.
 - `reports` : Contains a summary of Mandatory and Bonus Task Approach.
+- `raw_data` : Contains the data that has been given.
 - `prediction_data` : Contains output files of Bonus Task.
 - `preprocessed_data` : Contains the data that has been preprocessed (e.g. Mandatory Task Train-Test split).
 - `plots` : Contains all the plots that have been generated.
 - `code` : Contains all the code to generate the preprocessed dataset and models.
-    1. __*Mandatory task*__ : All mini models for mandatory task algorithm.
+    1. __*Mandatory task*__ : All mini models and Final Optimisation Algorithm for mandatory task.
     2. __*Bonus task*__ : ARMA and VAR implementation.
     3. __*Misc*__: All pre-processing / analysis codes.
 - `deprecated` : Trash bin of unwanted things :(
