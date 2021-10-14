@@ -19,7 +19,6 @@
 
 ## Bonus Task
 ### Directory
-- `Vector Autoregression (Log Difference).ipynb`: contains test data price predictions with VAR using log difference transformation
 - `Vector Autoregression (Log).ipynb`: contains test data price predictions with VAR using log 
 - `ARMA.ipynb`: contains test data price predictions using ARIMA
 
