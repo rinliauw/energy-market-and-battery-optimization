@@ -15,7 +15,7 @@
 ### Instructions
 1. Make sure `MiniModels.ipynb`, `Battery.py`, `PeriodMaximisation.py` and `Final Optimisation Algorithm.ipynb` are in the same directory.
 2. Open the `Final Optimisation Algorithm.ipynb`.
-3. Run `Final Optimisation Algorithm.ipynb` from above to below, change the input file.
+3. Read the instructions in `Final Optimisation Algorithm.ipynb`.
 
 ## Bonus Task
 ### Directory
