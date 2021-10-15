@@ -7,5 +7,6 @@
 - `OptimisationAlgs.ipynb`: contains all functions to run the main mandatory task algorithm (required for bonus task)
 
 ### Instructions
-1. To predict prices using the final model, open the file `Vector Autoregression (Log).ipynb` and run the file.
-2. To run the models for bonus task (VAR and ARMA Model) on mandatory task's algorithm, open `Run Bonus Task.ipynb`. This will run the predicted price on the mandatory task's model.
+1. To predict prices using the final model, open the file `Vector Autoregression (Log).ipynb`.
+2. To run the models for bonus task (VAR and ARMA Model), open `Run Bonus Task.ipynb`. This will run the predicted price on the mandatory task's algorithm.
+3. Please make sure the file `Vector Autoregression (Log).ipynb` has output the predicted price into this directory: `../../prediction_data/VAR_predictions_log.xlsx`
