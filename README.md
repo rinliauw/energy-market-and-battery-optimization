@@ -10,6 +10,7 @@ Group Members:
 - Yuhong Guo (988056)
 
 __Presentation Due__ : 11 October 2021  (COMPLETED)
+
 __Competitive Submission Due__ : 15 October 2021, 23:59 PM AEST
 
 # Bonus Task Report:
@@ -23,6 +24,7 @@ Report Link: https://www.overleaf.com/read/nrbqpxqrvysx
 ## Directory 
 - `instructions` : Contains given illustrative algorithm and task instructions.
 - `meeting_minutes` : Contains all meeting minutes throughout the whole project.
+- `external_assessment` : Contains all the files submitted for external assessment (A copy of code folder, including the results).
 - `reports` : Contains a summary of Mandatory and Bonus Task Approach.
 - `raw_data` : Contains the data that has been given.
 - `prediction_data` : Contains output files of Bonus Task.
