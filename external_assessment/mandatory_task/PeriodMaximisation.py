@@ -931,6 +931,8 @@ def computeRevenue(dataframe, region = "VIC"):
     dataframe['Revenue ($)'] = dataframe[price_name] * dataframe['mlf'] * dataframe['Market Dispatch (MWh)']
     return dataframe['Revenue ($)'].sum()
 
+# Get dependency on the given dataframe.
+# If there is capacity in the end of the day and the beginning of the day that counts as dependency
 def getDependency(dataframe):
     '''
     A function to get dependency on the given dataframe. For example, if
@@ -962,9 +964,9 @@ def getDependency(dataframe):
         # If the closing capacity of last period of the day are not zero and
         # the opening capacity the following day are not empty, then there
         # is dependency between the days. Therefore, append.
-        if dataframe.loc[i - 1, "Closing Capacity (MWh)"] != 0 and dataframe.loc[i, "Opening Capacity (MWh)"] != 0:
+        if dataframe.loc[i - 1, 'Closing Capacity (MWh)'] != 0 and dataframe.loc[i, 'Opening Capacity (MWh)'] != 0:
             dependency.append((i - 1, i))
-            
+
     consecutiveDependency = []
     tmp = []
     # Iterate over dependency while adding period continuously. If the next
@@ -980,10 +982,11 @@ def getDependency(dataframe):
 
     # Ensuring the last dependency if it is consecutive with the last one
     # or not.
-    if len(dependency) != 0 and len(consecutiveDependency) != 0 and dependency[-1][0] - consecutiveDependency[-1][0][0] == PERIOD:
-            consecutiveDependency[-1].append(dependency[-1])
+    if len(dependency) != 0 and dependency[-1][0] - consecutiveDependency[-1][0][0] == PERIOD:
+        consecutiveDependency[-1].append(dependency[-1])
     else:
         consecutiveDependency.append([dependency[-1]])
+
     # Selects only the the beginning and last period of the consecutive
     # dependencies. For example, (monday, tuesday, wednesday, thursday,
     # friday). So select (monday, friday).
