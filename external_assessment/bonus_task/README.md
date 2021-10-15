@@ -6,6 +6,5 @@
 
 ## Instructions
 1. To predict prices using the final model, open the file `Vector Autoregression (Log).ipynb`.
-2. To run the final chosen model for bonus task (VAR Model), open `Run VAR.ipynb`. This will run the predicted price on the mandatory task's algorithm.
-3. Please make sure the file `Vector Autoregression (Log).ipynb` has output the predicted price into this directory: `../../prediction_data/VAR_predictions_log.xlsx`
-2. To run the final chosen model for bonus task (VAR Model), open `Run VAR.ipynb`. This will run the predicted price on the mandatory task's model.
+3. Please make sure the file `Vector Autoregression (Log).ipynb` has output the predicted price into this directory: `VAR_predictions_log.xlsx`
+2. To run the final chosen model for bonus task (VAR Model), open and Run `Bonus Task.ipynb`. This will run the predicted price on the mandatory task's model.
